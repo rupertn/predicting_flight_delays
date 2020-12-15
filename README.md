@@ -5,7 +5,7 @@
   - Performed a complex SQL Server join of the flight and weather data on the closest weather report timestamp to the scheduled departure time.
   - Optimized logistic regression, decision tree, and random forest models using GridSearchCV to improve model performance in an unbalanced classifcation problem.
 ## Tools and Resources Used
-**Python**: 3.8
+**Python**: 3.8  
 **Packages**: numpy, pandas, matplotlib, seaborn, sklearn, beautifulSoup4
 ## Data Collection
 ### FAA Aircraft Registration Web Scraper
