@@ -62,5 +62,7 @@ To reduce load on the server, requests were sent in batches of 10 rather than in
   * For each unique airport, determined the closest weather station in the Airport Weather Report Data.
 
 ## Exploratory Data Analysis
+![](aircraft_age_dist.png)
+![](delays_by_hour.png)
 ## Model Building
 ## Closing Remarks
