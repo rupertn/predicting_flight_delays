@@ -63,6 +63,6 @@ To reduce load on the server, requests were sent in batches of 10 rather than in
 
 ## Exploratory Data Analysis
 ![](aircraft_age_dist.png)
-![](delays_by_hour.png)
+![](delays_by_hour.png) ![](thunderstorm_delays.png)
 ## Model Building
 ## Closing Remarks
