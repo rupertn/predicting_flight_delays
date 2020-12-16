@@ -2,7 +2,7 @@
 ### Project Overview
   * PURPOSE 
   * Scraped more than 5000 aircraft registrations from the FAA website using python and beautifulsoup.
-  * Engineered features from aviation weather report text (METARs) to indicate the presence of fog or a thunderstorm at the scheduled departure time.
+  * Engineered features from aviation weather report text (METARs) to indicate the presence of fog or thunderstorms at the scheduled departure time.
   * Performed a complex T-SQL join of the flight and weather data on the closest weather report timestamp to the scheduled departure time.
   * Optimized logistic regression, decision tree, and random forest models using GridSearchCV to improve model performance in an unbalanced classifcation problem. 
   
@@ -36,6 +36,23 @@ For each aircraft tail number, also known as an N-number, the following registra
     
 To reduce load on the server, requests were sent in batches of 10 rather than individually as we have thousands of unique urls.  
 ## Data Cleaning
+Airline On-Time Performance Data:
+  * Created columnns for whether the departure or arrival airport was slot controlled.
+  * Determined which flights were operated by a swapped aircraft, and removed them.
+    * Removed because the tail number assigned to each flight was of the aircraft that actually operated the flight, and not necessarily the one that caused the delay. 
+  * Adjusted aircraft tail numbers (N-number) to ensure they all begin with 'N'.
+  * Created a list of all unique tail numbers in the dataset to feed into the aircraft registration scraper.
+
+Airport Weather Reports:
+  * Created columns from METAR text to indicate the presence of fog, thunderstorms, or rain. 
+  * Used regular expressions to extract the numerical component of the recorded wind speed.
+  * Conformed all visibility entries to the aviation standard of 0 - 10 statute miles.  
+
+Scraped Aircraft Registration Data:  
+  * Used regular expressions to remove all year and date values that had incorrect formatting.
+  * Built a function to identify the correct manfucturer year for tail numbers that had multiple aircraft on the registration record. 
+  * Calculated the approximate aircraft age in August 2019. 
+
 ## Exploratory Data Analysis
 ## Model Building
 ## Closing Remarks
