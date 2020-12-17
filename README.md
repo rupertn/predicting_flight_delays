@@ -11,11 +11,12 @@
 **Python**: 3.8  
 **Packages**: numpy, pandas, matplotlib, seaborn, sklearn, beautifulsoup4, grequests  
 **SQL Server**: 2019  
-**Calculating Greatest Circle Distance**: [https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546](https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546)
-## Data Collection  
-If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of three main categories of delays, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, schedule knock-on effects etc.), or an air system delay (airport congestion, waiting for de-icing or refueling services etc.).  
+**Calculating Greatest Circle Distance**: [https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546](https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546)  
 
-To accuratly predict if a flight would be delayed several hours prior to its departure, we need data that relates to each type of commonly experienced delay. The following data sources were decided upon:  
+## Data Collection  
+If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of four main categories, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, crew scheduling issue etc.), a late aircraft delay (schedule knock-on effects etc.), or an air system delay (airport congestion, waiting for de-icing or refueling services etc.).  
+
+To accurately predict if a flight would be delayed several hours prior to its departure, we need data that relates to each type of commonly experienced delay. The following data sources were decided upon:  
 
   * **Airline On-Time Performance Data**
       * Source: [United States Department of Transportation (Bureau of Transportation Statistics)](https://www.transtats.bts.gov/Tables.asp?DB_ID=120&DB_Name=Airline%20On-Time%20Performance%20Data&DB_Short_Name=On-Time)
@@ -41,11 +42,12 @@ For each aircraft tail number, also known as an N-number, the following registra
 To reduce load on the server, requests were sent in batches of 10 rather than individually as we have thousands of unique urls.  
 ## Data Cleaning
 **Airline On-Time Performance Data:**
-  * Created columnns for whether the departure or arrival airport was slot controlled.
+  * Created columns to indicate if the departure or arrival airport was slot controlled.
   * Determined which flights were operated by a swapped aircraft, and removed them.
     * Removed because the tail number assigned to each flight was of the aircraft that actually operated the flight, and not necessarily the one that caused the delay. 
-  * Adjusted aircraft tail numbers (N-number) to ensure they all begin with 'N'.
+  * Adjusted aircraft tail numbers to ensure they all begin with 'N'.
   * Created a list of all unique tail numbers in the dataset to feed into the aircraft registration scraper.
+  * Created a column to indicate if the previous flight was delayed.
 
 **Airport Weather Reports:**
   * Created columns from METAR text to indicate the presence of fog, thunderstorms, or rain. 
@@ -59,7 +61,11 @@ To reduce load on the server, requests were sent in batches of 10 rather than in
   
 **Airport Location Data:**
   * Filtered the data to contain only the unique airports found in the Airline On-Time Performance Data.
-  * For each unique airport, determined the closest weather station in the Airport Weather Report Data.
+  * For each unique airport, determined the closest weather station based on latitude and longitude.  
+  * Identified if the assigned weather station was correct using regular expressions, followed with a manual review. 
+
+### Joining Cleaned Data  
+Given the quantity and size of the data sources used, along with the desired structure of the combined dataframe, I felt using SQL Server to join the data sources would be more straightforward than using python. The most complex step was joining the on-time performance and weather report data based on the closest weather report time to the scheduled departure time of each flight. Across all flights, a mean differential of 16 minutes was achieved.
 
 ## Exploratory Data Analysis
 ![](aircraft_age_dist.png)
