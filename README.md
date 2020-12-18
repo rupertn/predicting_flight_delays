@@ -72,7 +72,7 @@ Given the quantity and size of the data sources used, along with the desired str
 
 ## Exploratory Data Analysis
 ![](/Images/aircraft_age_dist.png)
-![](/Images/departure_hour_delay.png) ![](/Images/thunderstorm_delay.png)![](/Images/corr_matrix.png)
+![](/Images/departure_hour_delay.png) ![](/Images/storm_delays.png)![](/Images/corr_matrix.png)
 
 ## Model Building
 The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an unbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size.  
