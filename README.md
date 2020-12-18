@@ -69,6 +69,6 @@ Given the quantity and size of the data sources used, along with the desired str
 
 ## Exploratory Data Analysis
 ![](aircraft_age_dist.png)
-![](delays_by_hour.png) ![](thunderstorm_delays.png)
+![](delays_by_hour.png) ![](thunderstorm_delays.png)![](corr_matrix.png)
 ## Model Building
 ## Closing Remarks
