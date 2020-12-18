@@ -14,7 +14,7 @@
 **Calculating Greatest Circle Distance**: [https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546](https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546)  
 
 ## Data Collection  
-If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of four main categories, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, crew scheduling issue etc.), a late aircraft delay (schedule knock-on effects etc.), or an air system delay (airport congestion, runway inspection etc.).  
+If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of four main categories, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, crew scheduling issue etc.), a late aircraft delay, or an air system delay (airport congestion, runway inspection etc.).  
 
 To accurately predict if a flight would be delayed several hours prior to its departure, we need data that relates to each type of commonly experienced delay. The following data sources were decided upon:  
 
@@ -71,6 +71,7 @@ Shown below are some of the key data cleaning procedures peformed on each data s
 Given the quantity and size of the data sources used, along with the desired structure of the combined dataframe, I felt using SQL Server to join the data sources would be more straightforward than using python. The most complex step was joining the on-time performance and weather report data based on the closest weather report time to the scheduled departure time of each flight. Across all flights, a mean differential of 16 minutes was achieved.
 
 ## Exploratory Data Analysis
+Below are some highlights of the data exploration.
 ![](/Images/aircraft_age_dist.png)
 ![](/Images/departure_hour_delay.png) ![](/Images/storm_delays.png)![](/Images/corr_matrix.png)
 
