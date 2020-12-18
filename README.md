@@ -70,5 +70,18 @@ Given the quantity and size of the data sources used, along with the desired str
 ## Exploratory Data Analysis
 ![](aircraft_age_dist.png)
 ![](delays_by_hour.png) ![](thunderstorm_delays.png)![](corr_matrix.png)
+
 ## Model Building
+The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an imbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size. 
+
+First, I tested each model using the default parameters, then using GridSearchCV, adjusted hyperparameters to optimize the model performance. Model performance was evaluate with the F-score as both precision and recall were important. I was primarily interested in maximizing recall (the share of delayed flights the model correctly predicted) without significantly sacrificing precision. 
+
+Unfortunately, I found that each model was good at predicting non-delayed flights, but fairly poor at predicting delayed flights. The best performing model was a random forest model that achieved an F-score of 0.91 for class 0 and 0.52 for class 1.
+
 ## Closing Remarks
+
+- Need to look at a full years worth of data. One airline may have a bad month due organizational problems.. 
+- Weather may play a larger role in delays during the winter months
+- Missing features that can't be calculated. Airlines holding flights for groups of delayed transiting passengers.
+- Random events play a large role, aircraft mechanical problems
+- Not a large enough sample for extreme weather events (high winds)
