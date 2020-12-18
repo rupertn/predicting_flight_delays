@@ -1,6 +1,6 @@
 # Will Your Flight Be Delayed?
 ### Project Overview
-  * PURPOSE 
+  * Built a model designed to predict if a flight would be delayed several hours prior to its scheduled departure time. 
   * Scraped more than 5000 aircraft registrations from the FAA website using python and beautifulsoup.
   * Engineered features from aviation weather report text (METARs) to indicate the presence of fog or thunderstorms at the scheduled departure time.
   * Performed a complex T-SQL join of the flight and weather data on the closest weather report timestamp to the scheduled departure time.
@@ -26,6 +26,8 @@ To accurately predict if a flight would be delayed several hours prior to its de
       * Source: web scraped via the FAA aircraft registration website.  
   * **Airport Locations**
       * Source: [https://github.com/datasets/airport-codes](https://github.com/datasets/airport-codes)
+ 
+It is important to note that I am only using on-time performance and weather data from a single month, August 2019. If I were to look at a full years worth of data, the joined data sources would result in a dataframe of more than 100 million records, which wouldn't make my laptop too happy. Consequently, this means the model will only be useful for predicting flight delays in the month of August. 
  
 
 ### FAA Aircraft Registration Web Scraper
@@ -73,16 +75,11 @@ Given the quantity and size of the data sources used, along with the desired str
 ![](delays_by_hour.png) ![](thunderstorm_delays.png)![](corr_matrix.png)
 
 ## Model Building
-The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an unbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size. 
+The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an unbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size.  
 
 First, I tested each model using the default parameters, then using GridSearchCV, adjusted hyperparameters to optimize the model performance. Model performance was evaluate with the F-score as both precision and recall were important. I was primarily interested in maximizing recall (the share of actually delayed flights the model correctly predicted) without significantly sacrificing precision. 
 
 Unfortunately, I found that each model was good at predicting non-delayed flights, but fairly poor at predicting delayed flights. The best performing model was a random forest model that achieved an F-score of 0.91 for class 0 (non-delayed flights) and 0.52 for class 1 (delayed flights).
 
 ## Closing Remarks
-
-- Need to look at a full years worth of data. One airline may have a bad month due organizational problems.. 
-- Weather may play a larger role in delays during the winter months
-- Missing features that can't be calculated. Airlines holding flights for groups of delayed transiting passengers.
-- Random events play a large role, aircraft mechanical problems
-- Not a large enough sample for extreme weather events (high winds)
+To improve model performance further, more significant changes would be required. Increasing the sample size by looking at a full years worth of data instead of a single month would hopefully yield better results. However, even with a larger sample, the randomness of some flights delays makes predicting them challenging. For example, while I was able to engineer some features as a proxy for a certain type of delay, such as whether an airport was slot controlled as a proxy for airport congestion, some types of delays are almost impossible to predict. One of these scenarios is when airlines hold a flight at the gate for large groups of passengers (such as a tour group) that arrived late on their previous connecting flight. Another would be when airlines have crew scheduling problems that result in a delay. Regardless of these shortcomings, this was an interesting project and I learned a lot. Thanks for reading.
