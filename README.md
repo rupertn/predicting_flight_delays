@@ -14,33 +14,34 @@
 **Calculating Greatest Circle Distance**: [https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546](https://medium.com/analytics-vidhya/finding-nearest-pair-of-latitude-and-longitude-match-using-python-ce50d62af546)  
 
 ## Data Collection  
-If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of four main categories, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, crew scheduling issue etc.), a late aircraft delay (schedule knock-on effects etc.), or an air system delay (airport congestion, waiting for de-icing or refueling services etc.).  
+If a domestic flight was delayed in the United States in 2019, the delay typically fell into to one of four main categories, a weather delay (high winds, thunderstorms, freezing rain etc.), an airline delay (mechanical problem, crew scheduling issue etc.), a late aircraft delay (schedule knock-on effects etc.), or an air system delay (airport congestion, runway inspection etc.).  
 
 To accurately predict if a flight would be delayed several hours prior to its departure, we need data that relates to each type of commonly experienced delay. The following data sources were decided upon:  
 
-  * **Airline On-Time Performance Data**
+  * **Airline On-Time Performance Data** 
       * Source: [United States Department of Transportation (Bureau of Transportation Statistics)](https://www.transtats.bts.gov/Tables.asp?DB_ID=120&DB_Name=Airline%20On-Time%20Performance%20Data&DB_Short_Name=On-Time)
   * **Airport Weather Reports from FAA Managed Weather Stations**
       * Source: [National Centers for Environmental Information - U.S. Local Climatological Data (LCD)](https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00684)
-  * **Aircraft Registration Data**  
+  * **Aircraft Registration Data**
       * Source: web scraped via the FAA aircraft registration website.  
   * **Airport Locations**
       * Source: [https://github.com/datasets/airport-codes](https://github.com/datasets/airport-codes)
-  
-    
-### FAA Aircraft Registration Web Scraper
+ 
 
-For each aircraft tail number, also known as an N-number, the following registration information was collected:
+### FAA Aircraft Registration Web Scraper
+Built a web scraper to gather aircraft registration information from the FAA. For each aircraft tail number, also known as an N-number, the following data points were collected:
   * Active Aircraft:
     * Aircraft Model
     * Engine Model
-    * Manufacturer Year
+    * Year Manufactured
   * Deregistered Aircraft:
-    * Manufacturer Year
+    * Year Manufactured
     * Registration Cancellation Date
     
-To reduce load on the server, requests were sent in batches of 10 rather than individually as we have thousands of unique urls.  
+As we have thousands of tail numbers, requests were sent in batches of 10 rather than individually to reduce load on the server.  
 ## Data Cleaning
+Shown below are some of the key data cleaning procedures peformed on each data source. 
+
 **Airline On-Time Performance Data:**
   * Created columns to indicate if the departure or arrival airport was slot controlled.
   * Determined which flights were operated by a swapped aircraft, and removed them.
@@ -72,11 +73,11 @@ Given the quantity and size of the data sources used, along with the desired str
 ![](delays_by_hour.png) ![](thunderstorm_delays.png)![](corr_matrix.png)
 
 ## Model Building
-The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an imbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size. 
+The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an unbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size. 
 
-First, I tested each model using the default parameters, then using GridSearchCV, adjusted hyperparameters to optimize the model performance. Model performance was evaluate with the F-score as both precision and recall were important. I was primarily interested in maximizing recall (the share of delayed flights the model correctly predicted) without significantly sacrificing precision. 
+First, I tested each model using the default parameters, then using GridSearchCV, adjusted hyperparameters to optimize the model performance. Model performance was evaluate with the F-score as both precision and recall were important. I was primarily interested in maximizing recall (the share of actually delayed flights the model correctly predicted) without significantly sacrificing precision. 
 
-Unfortunately, I found that each model was good at predicting non-delayed flights, but fairly poor at predicting delayed flights. The best performing model was a random forest model that achieved an F-score of 0.91 for class 0 and 0.52 for class 1.
+Unfortunately, I found that each model was good at predicting non-delayed flights, but fairly poor at predicting delayed flights. The best performing model was a random forest model that achieved an F-score of 0.91 for class 0 (non-delayed flights) and 0.52 for class 1 (delayed flights).
 
 ## Closing Remarks
 
