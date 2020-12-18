@@ -6,7 +6,7 @@
   * Performed a complex T-SQL join of the flight and weather data on the closest weather report timestamp to the scheduled departure time.
   * Optimized logistic regression, decision tree, and random forest models using GridSearchCV to improve model performance in an unbalanced classifcation problem. 
   
-  ![](san_francisco_airport.jpg)
+  ![](/Images/munich_airport.jpg)
 ## Tools and Resources Used
 **Python**: 3.8  
 **Packages**: numpy, pandas, matplotlib, seaborn, sklearn, beautifulsoup4, grequests  
@@ -71,8 +71,8 @@ Shown below are some of the key data cleaning procedures peformed on each data s
 Given the quantity and size of the data sources used, along with the desired structure of the combined dataframe, I felt using SQL Server to join the data sources would be more straightforward than using python. The most complex step was joining the on-time performance and weather report data based on the closest weather report time to the scheduled departure time of each flight. Across all flights, a mean differential of 16 minutes was achieved.
 
 ## Exploratory Data Analysis
-![](aircraft_age_dist.png)
-![](delays_by_hour.png) ![](thunderstorm_delays.png)![](corr_matrix.png)
+![](/Images/aircraft_age_dist.png)
+![](/Images/departure_hour_delay.png) ![](/Images/thunderstorm_delay.png)![](/Images/corr_matrix.png)
 
 ## Model Building
 The classification models I wanted to explore were logistic regression, decision tree, and random forest models. In theory, with an unbalanced dataset (4 to 1 ratio of non-delayed flights to delayed flights) and some multicollinearity between features, a random forest model was expected to perform well. I chose to exclude support vector machines as the run time would be slow on a dataset of this size.  
